@@ -53,11 +53,19 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User updateUser(User user) {
-        return null;
+        long key = user.getId();
+        users.put(key, user);
+        return user;
     }
 
     @Override
     public boolean deleteUser(long userId) {
-        return false;
+        boolean deleteResult = false;
+        users.remove(userId);
+        if (users.get(userId) == null) {
+            deleteResult = true;
+        }
+
+        return deleteResult;
     }
 }

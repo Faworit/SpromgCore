@@ -6,7 +6,9 @@ import com.epam.ryabtsev.model.User;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Scope("singleton")
@@ -15,6 +17,13 @@ public class Storage {
     private Map<Long, User> users;
     private Map<Long, Event> events;
     private Map<Long, Ticket> tickets;
+
+    @PostConstruct
+    public void init() {
+        this.users = new ConcurrentHashMap<>();
+        this.events = new ConcurrentHashMap<>();
+        this.tickets = new ConcurrentHashMap<>();
+    }
 
     public Map<Long, User> getUsers() {
         return users;
