@@ -17,116 +17,92 @@ import java.util.List;
 public class BookingFacadeImpl implements BookingFacade {
     private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("ApplicationContext.xml");
     private UserService userService = applicationContext.getBean(UserServiceImpl.class);
+
     private EventService eventService;
     private TicketService ticketService;
 
+    public BookingFacadeImpl(EventService eventService, TicketService ticketService) {
+        this.eventService = eventService;
+        this.ticketService = ticketService;
+    }
+
     @Override
     public Event getEventById(long eventId) {
-        Event event = eventService.getEventById(eventId);
-
-        return event;
+        return eventService.getEventById(eventId);
     }
 
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) {
-        List<Event> events = eventService.getEventsByTitle(title, pageSize, pageNum);
-        return events;
+        return eventService.getEventsByTitle(title, pageSize, pageNum);
     }
 
     @Override
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) {
-        List<Event> events = eventService.getEventsForDay(day, pageSize, pageNum);
-
-        return events;
+        return eventService.getEventsForDay(day, pageSize, pageNum);
     }
 
     @Override
     public Event createEvent(Event event) {
-        Event createdEvent = eventService.createEvent(event);
-        return createdEvent;
+        return eventService.createEvent(event);
     }
 
     @Override
     public Event updateEvent(Event event) {
-        Event updatedEvent = eventService.updateEvent(event);
-
-        return updatedEvent;
+        return eventService.updateEvent(event);
     }
 
     @Override
     public boolean deleteEvent(long eventId) {
-        boolean result = eventService.deleteEvent(eventId);
-
-        return result;
+        return eventService.deleteEvent(eventId);
     }
 
     @Override
     public User getUserById(long userId) {
-        User user = userService.getUserById(userId);
-
-        return user;
+        return userService.getUserById(userId);
     }
 
     @Override
     public User getUserByEmail(String email) {
-        User user = userService.getUserByEmail(email);
-
-        return user;
+        return userService.getUserByEmail(email);
     }
 
     @Override
     public List<User> getUsersByName(String name, int pageSize, int pageNum) {
-        List<User> users = userService.getUsersByName(name, pageSize, pageNum);
-
-        return users;
+        return userService.getUsersByName(name, pageSize, pageNum);
     }
 
     @Override
     public User createUser(User user) {
-        User createdUser = userService.createUser(user);
-
-        return createdUser;
+        return userService.createUser(user);
     }
 
     @Override
     public User updateUser(User user) {
-        User updatedUser = userService.updateUser(user);
-
-        return updatedUser;
+        return userService.updateUser(user);
     }
 
     @Override
     public boolean deleteUser(long userId) {
-        boolean result = userService.deleteUser(userId);
-
-        return result;
+        return userService.deleteUser(userId);
     }
 
     @Override
     public Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category) {
-        Ticket ticket = ticketService.bookTicket(userId, eventId, place, category);
-
-        return ticket;
+        return ticketService.bookTicket(userId, eventId, place, category);
     }
 
     @Override
     public List<Ticket> getBookedTickets(User user, int pageSize, int pageNum) {
-        List<Ticket> bookedTickets = ticketService.getBookedTickets(user, pageSize, pageNum);
-
-        return bookedTickets;
+        return ticketService.getBookedTickets(user, pageSize, pageNum);
     }
 
     @Override
     public List<Ticket> getBookedTickets(Event event, int pageSize, int pageNum) {
-        List<Ticket> bookedTickets = ticketService.getBookedTickets(event, pageSize, pageNum);
-
-        return bookedTickets;
+        return ticketService.getBookedTickets(event, pageSize, pageNum);
     }
 
     @Override
     public boolean cancelTicket(long ticketId) {
-        boolean result = ticketService.cancelTicket(ticketId);
-
-        return result;
+        return ticketService.cancelTicket(ticketId);
     }
 }
