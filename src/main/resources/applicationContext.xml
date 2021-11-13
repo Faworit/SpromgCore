@@ -12,6 +12,33 @@
     <context:annotation-config />
 
     <context:component-scan base-package="com.epam.ryabtsev" />
-    <bean id="UserServiceImpl" class="com.epam.ryabtsev.service.impl.UserServiceImpl" />
+    <bean id="storage" class="com.epam.ryabtsev.DAO.storage.Storage"/>
+    <bean id="eventDAOImpl" class="com.epam.ryabtsev.DAO.impl.EventDAOImpl"/>
+    <bean id="userDAOImpl" class="com.epam.ryabtsev.DAO.impl.UserDAOImpl"/>
+    <bean id="ticketDAOImpl" class="com.epam.ryabtsev.DAO.impl.TicketDAOImpl"/>
+    <bean id="userServiceImpl" class="com.epam.ryabtsev.service.impl.UserServiceImpl"/>
+    <bean id="eventServiceImpl" class="com.epam.ryabtsev.service.impl.EventServiceImpl"/>
+    <bean id="ticketServiceImpl" class="com.epam.ryabtsev.service.impl.TicketServiceImpl"/>
+    <bean id="eventStorage" class="com.epam.ryabtsev.service.impl.EventServiceImpl" autowire="constructor"/>
+    <bean id="eventDAO" class="com.epam.ryabtsev.service.impl.EventServiceImpl" autowire="constructor"/>
+    <bean id="ticketStorage" class="com.epam.ryabtsev.service.impl.TicketServiceImpl" autowire="constructor"/>
+    <bean id="ticketDAO" class="com.epam.ryabtsev.service.impl.TicketServiceImpl" autowire="constructor"/>
+    <bean id="userStorage" class="com.epam.ryabtsev.service.impl.UserServiceImpl" autowire="constructor"/>
+    <bean id="userDAO" class="com.epam.ryabtsev.service.impl.UserServiceImpl" autowire="constructor"/>
+    <bean id="bookingFacadeimpl" class="com.epam.ryabtsev.facade.impl.BookingFacadeImpl"/>
+
+
+    <bean id="userService" class="com.epam.ryabtsev.service.impl.UserServiceImpl">
+        <constructor-arg index="0" ref="userDAOImpl"/>
+        <constructor-arg index="1" ref="storage"/>
+    </bean>
+    <bean id="ticketService" class="com.epam.ryabtsev.service.impl.TicketServiceImpl">
+        <constructor-arg index="0" ref="ticketDAOImpl"/>
+        <constructor-arg index="1" ref="storage"/>
+    </bean>
+    <bean id="eventService" class="com.epam.ryabtsev.service.impl.EventServiceImpl">
+        <constructor-arg index="0" ref="eventDAOImpl"/>
+        <constructor-arg index="1" ref="storage"/>
+    </bean>
 
 </beans>

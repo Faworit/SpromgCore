@@ -1,6 +1,7 @@
 package com.epam.ryabtsev.service.impl;
 
 import com.epam.ryabtsev.DAO.UserDAO;
+import com.epam.ryabtsev.DAO.storage.Storage;
 import com.epam.ryabtsev.model.User;
 import com.epam.ryabtsev.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    @Autowired
     UserDAO userDAO;
+    Storage userStorage;
+
+    public UserServiceImpl(UserDAO userDAO, Storage userStorage) {
+        this.userDAO = userDAO;
+        this.userStorage = userStorage;
+    }
 
     @Override
     public User getUserById(long userId) {

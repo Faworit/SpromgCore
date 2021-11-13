@@ -1,6 +1,7 @@
 package com.epam.ryabtsev.service.impl;
 
 import com.epam.ryabtsev.DAO.TicketDAO;
+import com.epam.ryabtsev.DAO.storage.Storage;
 import com.epam.ryabtsev.model.Event;
 import com.epam.ryabtsev.model.Ticket;
 import com.epam.ryabtsev.model.User;
@@ -12,8 +13,13 @@ import java.util.List;
 
 @Service
 public class TicketServiceImpl implements TicketService {
-    @Autowired
-    TicketDAO ticketDAO;
+    private TicketDAO ticketDAO;
+    private Storage ticketStorage;
+
+    public TicketServiceImpl(TicketDAO ticketDAO, Storage ticketStorage) {
+        this.ticketDAO = ticketDAO;
+        this.ticketStorage = ticketStorage;
+    }
 
     @Override
     public Ticket bookTicket(long userId, long eventId, int place, Ticket.Category category) {

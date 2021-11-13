@@ -1,6 +1,8 @@
 package com.epam.ryabtsev.service.impl;
 
 import com.epam.ryabtsev.DAO.EventDAO;
+import com.epam.ryabtsev.DAO.impl.EventDAOImpl;
+import com.epam.ryabtsev.DAO.storage.Storage;
 import com.epam.ryabtsev.model.Event;
 import com.epam.ryabtsev.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +13,14 @@ import java.util.List;
 
 @Service
 public class EventServiceImpl implements EventService {
-    @Autowired
-    EventDAO eventDAO;
+
+    private EventDAOImpl eventDAO;
+    private Storage storage;
+
+    public EventServiceImpl(EventDAOImpl eventDAO, Storage storage) {
+        this.eventDAO = eventDAO;
+        this.storage = storage;
+    }
 
     @Override
     public Event getEventById(long eventId) {

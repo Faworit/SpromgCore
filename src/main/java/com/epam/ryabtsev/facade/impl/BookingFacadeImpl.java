@@ -7,6 +7,8 @@ import com.epam.ryabtsev.model.User;
 import com.epam.ryabtsev.service.EventService;
 import com.epam.ryabtsev.service.TicketService;
 import com.epam.ryabtsev.service.UserService;
+import com.epam.ryabtsev.service.impl.EventServiceImpl;
+import com.epam.ryabtsev.service.impl.TicketServiceImpl;
 import com.epam.ryabtsev.service.impl.UserServiceImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,16 +17,12 @@ import java.util.Date;
 import java.util.List;
 
 public class BookingFacadeImpl implements BookingFacade {
-    private ApplicationContext applicationContext = new ClassPathXmlApplicationContext("ApplicationContext.xml");
-    private UserService userService = applicationContext.getBean(UserServiceImpl.class);
 
-    private EventService eventService;
-    private TicketService ticketService;
+    ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    UserService userService = context.getBean(UserServiceImpl.class);
+    EventService eventService = context.getBean(EventServiceImpl.class);
+    TicketService ticketService = context.getBean(TicketServiceImpl.class);
 
-    public BookingFacadeImpl(EventService eventService, TicketService ticketService) {
-        this.eventService = eventService;
-        this.ticketService = ticketService;
-    }
 
     @Override
     public Event getEventById(long eventId) {
