@@ -11,20 +11,19 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class EventDAOImpl implements EventDAO {
+
     @Autowired
-    Storage storage;
-
-
-    private Map<Long, Event> events = storage.getEvents();
+    private Storage storage;
 
     @Override
     public Event getEventById(long eventId) {
-
+        Map<Long, Event> events = storage.getEvents();
         return events.get(eventId);
     }
 
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) {
+        Map<Long, Event> events = storage.getEvents();
         List<Event> event = events.entrySet()
                 .stream()
                 .map(Map.Entry::getValue)
@@ -36,6 +35,7 @@ public class EventDAOImpl implements EventDAO {
 
     @Override
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) {
+        Map<Long, Event> events = storage.getEvents();
         List<Event> event = events.entrySet()
                 .stream()
                 .map(Map.Entry::getValue)
@@ -48,15 +48,17 @@ public class EventDAOImpl implements EventDAO {
 
     @Override
     public Event createEvent(Event event) {
+        Map<Long, Event> events = storage.getEvents();
         long max = events.keySet().stream().max(Long::compareTo).orElse(0L);
         var key = max + 1;
         event.setId(key);
-        events.put(key, event);
+        storage.setEvents(key, event);
         return event;
     }
 
     @Override
     public Event updateEvent(Event event) {
+        Map<Long, Event> events = storage.getEvents();
         long key = event.getId();
         events.put(key, event);
         return event;
@@ -64,6 +66,7 @@ public class EventDAOImpl implements EventDAO {
 
     @Override
     public boolean deleteEvent(long eventId) {
+        Map<Long, Event> events = storage.getEvents();
         boolean deleteResult = false;
         events.remove(eventId);
         if (events.get(eventId) == null) {
@@ -71,5 +74,15 @@ public class EventDAOImpl implements EventDAO {
         }
 
         return deleteResult;
+    }
+
+    @Autowired
+    public Storage getStorage() {
+        return storage;
+    }
+
+    @Autowired
+    public void setStorage(Storage storage) {
+        this.storage = storage;
     }
 }
