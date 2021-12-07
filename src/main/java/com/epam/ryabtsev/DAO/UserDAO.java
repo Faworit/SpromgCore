@@ -1,6 +1,7 @@
 package com.epam.ryabtsev.DAO;
 
 import com.epam.ryabtsev.model.User;
+import com.epam.ryabtsev.model.impl.UserImpl;
 
 import java.util.List;
 

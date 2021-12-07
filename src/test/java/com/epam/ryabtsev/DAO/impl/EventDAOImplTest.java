@@ -14,7 +14,7 @@ import java.util.List;
 
 class EventDAOImplTest {
 
-    Storage storage = Storage.init();
+    Storage storage;
     StorageMock mock = new StorageMock();
 
     @Test
@@ -24,7 +24,7 @@ class EventDAOImplTest {
         Event event = new EventImpl(1, "test", new Date());
 
         //when
-        Event result = storage.getEvents().get(1L);
+        Event result = storage.getEventById(1L);
 
         //then
         Assertions.assertEquals(event.getTitle(), result.getTitle());
@@ -33,9 +33,8 @@ class EventDAOImplTest {
     @Test
     void getEvetForDay() {
         //given
-        EventDAOImpl eventDAO = new EventDAOImpl();
+        EventDAOImpl eventDAO = new EventDAOImpl(storage);
         mock.fillEventStorage(storage);
-        eventDAO.setStorage(storage);
         Date day = new GregorianCalendar(2021, Calendar.FEBRUARY, 11).getTime();
         String title = "test4";
         long id = 4L;

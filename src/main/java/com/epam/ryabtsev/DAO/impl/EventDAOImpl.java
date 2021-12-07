@@ -12,77 +12,39 @@ import java.util.stream.Collectors;
 
 public class EventDAOImpl implements EventDAO {
 
-    @Autowired
     private Storage storage;
+
+    public EventDAOImpl(Storage storage) {
+        this.storage = storage;
+    }
 
     @Override
     public Event getEventById(long eventId) {
-        Map<Long, Event> events = storage.getEvents();
-        return events.get(eventId);
+        return storage.getEventById(eventId);
     }
 
     @Override
     public List<Event> getEventsByTitle(String title, int pageSize, int pageNum) {
-        Map<Long, Event> events = storage.getEvents();
-        List<Event> event = events.entrySet()
-                .stream()
-                .map(Map.Entry::getValue)
-                .filter(p-> p.getTitle().equals(title))
-                .collect(Collectors.toList());
-        System.out.println(event.get(0));
-        return event;
+        return storage.getEventsByTitle(title, pageSize, pageNum);
     }
 
     @Override
     public List<Event> getEventsForDay(Date day, int pageSize, int pageNum) {
-        Map<Long, Event> events = storage.getEvents();
-        List<Event> event = events.entrySet()
-                .stream()
-                .map(Map.Entry::getValue)
-                .filter(p-> p.getDate().equals(day))
-                .collect(Collectors.toList());
-        System.out.println(event.get(0));
-
-        return event;
+        return storage.getEventsForDay(day, pageSize, pageNum);
     }
 
     @Override
     public Event createEvent(Event event) {
-        Map<Long, Event> events = storage.getEvents();
-        long max = events.keySet().stream().max(Long::compareTo).orElse(0L);
-        var key = max + 1;
-        event.setId(key);
-        storage.setEvents(key, event);
-        return event;
+        return storage.createEvent(event);
     }
 
     @Override
     public Event updateEvent(Event event) {
-        Map<Long, Event> events = storage.getEvents();
-        long key = event.getId();
-        events.put(key, event);
-        return event;
+        return storage.updateEvent(event);
     }
 
     @Override
     public boolean deleteEvent(long eventId) {
-        Map<Long, Event> events = storage.getEvents();
-        boolean deleteResult = false;
-        events.remove(eventId);
-        if (events.get(eventId) == null) {
-            deleteResult = true;
-        }
-
-        return deleteResult;
-    }
-
-    @Autowired
-    public Storage getStorage() {
-        return storage;
-    }
-
-    @Autowired
-    public void setStorage(Storage storage) {
-        this.storage = storage;
+        return storage.deleteEvent(eventId);
     }
 }

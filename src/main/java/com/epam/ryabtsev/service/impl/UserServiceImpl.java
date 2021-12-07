@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    UserDAO userDAO;
-    Storage userStorage;
+    private UserDAO userDAO;
+    private Storage userStorage;
 
     public UserServiceImpl(UserDAO userDAO, Storage userStorage) {
         this.userDAO = userDAO;
