@@ -14,7 +14,7 @@ import java.util.List;
 
 class EventDAOImplTest {
 
-    Storage storage = Storage.init();
+    Storage storage;
     StorageMock mock = new StorageMock();
 
     @Test
@@ -33,7 +33,7 @@ class EventDAOImplTest {
     @Test
     void getEvetForDay() {
         //given
-        EventDAOImpl eventDAO = new EventDAOImpl();
+        EventDAOImpl eventDAO = new EventDAOImpl(storage);
         mock.fillEventStorage(storage);
         eventDAO.setStorage(storage);
         Date day = new GregorianCalendar(2021, Calendar.FEBRUARY, 11).getTime();

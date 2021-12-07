@@ -14,7 +14,11 @@ import java.util.stream.Collectors;
 
 public class TicketDAOImpl implements TicketDAO {
     @Autowired
-    Storage storage;
+    private Storage storage;
+
+    public TicketDAOImpl(Storage storage) {
+        this.storage = storage;
+    }
 
     private Map<Long, Ticket> tickets = storage.getTickets();
 

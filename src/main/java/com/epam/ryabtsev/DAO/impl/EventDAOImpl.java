@@ -15,6 +15,10 @@ public class EventDAOImpl implements EventDAO {
     @Autowired
     private Storage storage;
 
+    public EventDAOImpl(Storage storage) {
+        this.storage = storage;
+    }
+
     @Override
     public Event getEventById(long eventId) {
         Map<Long, Event> events = storage.getEvents();

@@ -2,43 +2,87 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
 
-       xsi:schemaLocation="
-		http://www.springframework.org/schema/beans
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
     	http://www.springframework.org/schema/beans/spring-beans.xsd
     	http://www.springframework.org/schema/context
-    	http://www.springframework.org/schema/context/spring-context.xsd">
+    	http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util https://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:annotation-config />
-
     <context:component-scan base-package="com.epam.ryabtsev" />
-    <bean id="storage" class="com.epam.ryabtsev.DAO.storage.Storage"/>
-    <bean id="eventDAOImpl" class="com.epam.ryabtsev.DAO.impl.EventDAOImpl"/>
-    <bean id="userDAOImpl" class="com.epam.ryabtsev.DAO.impl.UserDAOImpl"/>
-    <bean id="ticketDAOImpl" class="com.epam.ryabtsev.DAO.impl.TicketDAOImpl"/>
-    <bean id="userServiceImpl" class="com.epam.ryabtsev.service.impl.UserServiceImpl"/>
-    <bean id="eventServiceImpl" class="com.epam.ryabtsev.service.impl.EventServiceImpl"/>
-    <bean id="ticketServiceImpl" class="com.epam.ryabtsev.service.impl.TicketServiceImpl"/>
-    <bean id="eventStorage" class="com.epam.ryabtsev.service.impl.EventServiceImpl" autowire="constructor"/>
-    <bean id="eventDAO" class="com.epam.ryabtsev.service.impl.EventServiceImpl" autowire="constructor"/>
-    <bean id="ticketStorage" class="com.epam.ryabtsev.service.impl.TicketServiceImpl" autowire="constructor"/>
-    <bean id="ticketDAO" class="com.epam.ryabtsev.service.impl.TicketServiceImpl" autowire="constructor"/>
-    <bean id="userStorage" class="com.epam.ryabtsev.service.impl.UserServiceImpl" autowire="constructor"/>
-    <bean id="userDAO" class="com.epam.ryabtsev.service.impl.UserServiceImpl" autowire="constructor"/>
-    <bean id="bookingFacadeimpl" class="com.epam.ryabtsev.facade.impl.BookingFacadeImpl"/>
+
+    <bean id="user" class="com.epam.ryabtsev.model.impl.UserImpl">
+        <constructor-arg index="0" value="1"/>
+        <constructor-arg index="1" value="test"/>
+        <constructor-arg index="2" value="test@mail.ru"/>
+    </bean>
+    <bean id="dateFormater" class="java.text.SimpleDateFormat">
+        <constructor-arg value="dd-MM-yyyy" />
+    </bean>
+    <bean id="date" factory-bean="dateFormater" factory-method="parse">
+        <constructor-arg value="23-03-1982" />
+    </bean>
+    <bean id="event" class="com.epam.ryabtsev.model.impl.EventImpl">
+        <constructor-arg index="0" value="1"/>
+        <constructor-arg index="1" value="title"/>
+
+        <constructor-arg index="2" ref="date"/>
+    </bean>
+
+    <bean id="ticket" class="com.epam.ryabtsev.model.impl.TicketImpl">
+        <constructor-arg index="0" value="1"/>
+        <constructor-arg index="1" value="1"/>
+        <constructor-arg index="2" value="1"/>
+        <constructor-arg index="3" value="1"/>
+    </bean>
+
+    <util:map id="users" map-class="java.util.HashMap">
+        <entry key="1">
+            <ref bean="user"/>
+        </entry>
+    </util:map>
+    <util:map id="events" map-class="java.util.HashMap">
+        <entry key="1">
+            <ref bean="event"/>
+        </entry>
+    </util:map>
+    <util:map id="tickets" map-class="java.util.HashMap">
+        <entry key="1">
+            <ref bean="ticket"/>
+        </entry>
+    </util:map>
 
 
-    <bean id="userService" class="com.epam.ryabtsev.service.impl.UserServiceImpl">
+    <bean id="storage" class="com.epam.ryabtsev.DAO.storage.Storage">
+        <constructor-arg index="0" ref="users"/>
+        <constructor-arg index="1" ref="events"/>
+        <constructor-arg index="2" ref="tickets"/>
+    </bean>
+    <bean id="ticketDAOImpl" class="com.epam.ryabtsev.DAO.impl.TicketDAOImpl">
+        <constructor-arg index="0" ref="storage"/>
+    </bean>
+    <bean id="userDAOImpl" class="com.epam.ryabtsev.DAO.impl.UserDAOImpl">
+        <constructor-arg index="0" ref="storage"/>
+    </bean>
+    <bean id="eventDAOImpl" class="com.epam.ryabtsev.DAO.impl.EventDAOImpl">
+        <constructor-arg index="0" ref="storage"/>
+    </bean>
+    <bean id="userServiceImpl" class="com.epam.ryabtsev.service.impl.UserServiceImpl">
         <constructor-arg index="0" ref="userDAOImpl"/>
         <constructor-arg index="1" ref="storage"/>
     </bean>
-    <bean id="ticketService" class="com.epam.ryabtsev.service.impl.TicketServiceImpl">
+    <bean id="ticketServiceImpl" class="com.epam.ryabtsev.service.impl.TicketServiceImpl">
         <constructor-arg index="0" ref="ticketDAOImpl"/>
         <constructor-arg index="1" ref="storage"/>
     </bean>
-    <bean id="eventService" class="com.epam.ryabtsev.service.impl.EventServiceImpl">
+    <bean id="eventServiceImpl" class="com.epam.ryabtsev.service.impl.EventServiceImpl">
         <constructor-arg index="0" ref="eventDAOImpl"/>
         <constructor-arg index="1" ref="storage"/>
     </bean>
-
+    <bean id="bookingFacadeImpl" class="com.epam.ryabtsev.facade.impl.BookingFacadeImpl">
+        <constructor-arg index="0" ref="userServiceImpl"/>
+        <constructor-arg index="1" ref="eventServiceImpl"/>
+        <constructor-arg index="2" ref="ticketServiceImpl"/>
+    </bean>   
 </beans>

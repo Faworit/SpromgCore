@@ -13,7 +13,11 @@ public class UserDAOImpl implements UserDAO {
     @Autowired
     Storage storage;
 
-   private Map<Long, User> users = storage.getUsers();
+    public UserDAOImpl(Storage storage) {
+        this.storage = storage;
+    }
+
+    private Map<Long, User> users = storage.getUsers();
 
     @Override
     public User getUserById(long userId) {
