@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 public class TicketServiceImpl implements TicketService {
+    @Autowired
     private TicketDAO ticketDAO;
     private Storage ticketStorage;
 
